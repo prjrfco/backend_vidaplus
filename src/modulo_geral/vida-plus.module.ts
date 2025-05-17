@@ -23,4 +23,4 @@ import { PacienteEntity } from './entities/paciente.entity';
   providers: [AuthService, LocalStrategy, UsuarioRepository, PacienteRepository, PacienteService, ],
   exports: [AuthService],
 })
-export class SegurancaModule {}
+export class VidaPlusModule {}

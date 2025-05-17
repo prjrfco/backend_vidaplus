@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from './database/database.module';
-import { SegurancaModule } from './modulo_geral/seguranca.module';
+import { VidaPlusModule } from './modulo_geral/vida-plus.module';
 
 @Module({
-  imports: [DatabaseModule, SegurancaModule],
+  imports: [DatabaseModule, VidaPlusModule],
   controllers: [],
   providers: [],
 })

@@ -1,6 +1,7 @@
-import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
 import { Base } from '../../common/base.entity';
 import { UsuarioEntity } from './usuario.entity';
+import { ConsultaEntity } from './consulta.entity';
 
 @Entity({ name: "paciente", schema: "cadastro" })
 export class PacienteEntity extends Base {
@@ -33,4 +34,7 @@ export class PacienteEntity extends Base {
 
   @Column({ name: "tipo_sanguineo", nullable: true, type: "varchar" })
   tipoSanguineo: string;
+
+  @OneToMany(() => ConsultaEntity, (consulta) => consulta.paciente)
+  consultas: ConsultaEntity[];
 }
