@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { UsuarioRepository } from '../repositories/usuario.repository';
 import { PacienteInfoDto } from '../dto/paciente.info.dto';
 import { UsuarioEntity } from '../entities/usuario.entity';
@@ -28,6 +28,7 @@ export class PacienteService {
   }
 
   async save(body: PacienteSaveDto): Promise<PacienteInfoDto> {
+    await this.validarEmailCpf(body);
     const hashedPassword = await bcrypt.hash(body.senha, 10);
 
     const novoUsuario = new UsuarioEntity();
@@ -41,6 +42,7 @@ export class PacienteService {
         novoPaciente.telefone = body.telefone;
         novoPaciente.pesoEmKg = body.pesoEmKg;
         novoPaciente.alturaEmMetro = body.alturaEmMetro;
+        novoPaciente.tipoSanguineo = body.tipoSanguineo;
 
         return this.pacienteRepository.save(novoPaciente);
       });
@@ -49,6 +51,25 @@ export class PacienteService {
     }
 
     return new PacienteInfoDto(novoPaciente);
+  }
+
+  private async validarEmailCpf(body: PacienteSaveDto, usuarioId?: string) {
+    const validarEmail = await this.usuarioRepository.findOneByEmail(body.email);
+    if (validarEmail) {
+      if (!usuarioId) {
+        throw new BadRequestException('Email já cadastrado');
+      } else if (validarEmail.id !== usuarioId) {
+        throw new BadRequestException('Email já cadastrado');
+      }
+    }
+    const validarCpf = await this.usuarioRepository.findOneByCpf(this.removeSpecialCharacters(body.cpf));
+    if (validarCpf) {
+      if (!usuarioId) {
+        throw new BadRequestException('Cpf já cadastrado');
+      } else if (validarCpf.id !== usuarioId) {
+        throw new BadRequestException('Cpf já cadastrado');
+      }
+    }
   }
 
   private mapUsuario(novoUsuario: UsuarioEntity, body: PacienteSaveDto, hashedPassword: string) {
@@ -62,6 +83,10 @@ export class PacienteService {
 
     if (!paciente) {
       throw new NotFoundException("Paciente não encontrado");
+    }
+
+    if (paciente.usuario.email !== body.email || paciente.usuario.cpf !== body.cpf) {
+      await this.validarEmailCpf(body, paciente.usuario.id);
     }
 
     const hashedPassword = await bcrypt.hash(body.senha, 10);
