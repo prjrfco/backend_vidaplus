@@ -23,11 +23,15 @@ export class PacienteRepository {
   }
 
   findAll(): Promise<PacienteEntity[]> {
-    return this.pacienteRepository.find({ where: { apagadoEm: IsNull() } });
+    return this.pacienteRepository.find({
+      relations: { usuario: true },
+      where: { apagadoEm: IsNull() } });
   }
 
   findOneById(id: string): Promise<PacienteEntity | null> {
-    return this.pacienteRepository.findOne({ where: { id: id, apagadoEm: IsNull() } });
+    return this.pacienteRepository.findOne({
+      relations: { usuario: true },
+      where: { id: id, apagadoEm: IsNull() } });
   }
 
   save(entity: PacienteEntity): Promise<PacienteEntity> {

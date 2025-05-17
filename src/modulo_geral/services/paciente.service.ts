@@ -101,6 +101,7 @@ export class PacienteService {
           paciente.telefone = body.telefone;
           paciente.pesoEmKg = body.pesoEmKg;
           paciente.alturaEmMetro = body.alturaEmMetro;
+          paciente.tipoSanguineo = body.tipoSanguineo;
 
           return this.pacienteRepository.save(paciente);
         })
