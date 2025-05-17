@@ -14,7 +14,7 @@ export class AuthService {
     let usuario: UsuarioEntity | null = await this.usuarioRepository.findOneByEmail(emailOuCpf);
 
     if (!usuario) {
-      usuario = await this.usuarioRepository.findOneByCpf(emailOuCpf);
+      usuario = await this.usuarioRepository.findOneByCpf(this.removeSpecialCharacters(emailOuCpf));
       if (!usuario){
         throw new UnauthorizedException('Usuário ou Senha Inválidos');
       }
@@ -36,5 +36,9 @@ export class AuthService {
           },
       ),
     };
+  }
+
+  removeSpecialCharacters(str: string) {
+    return str.replace(/[^\w\s]/gi, '');
   }
 }

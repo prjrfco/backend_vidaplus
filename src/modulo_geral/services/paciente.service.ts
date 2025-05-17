@@ -52,7 +52,9 @@ export class PacienteService {
   }
 
   private mapUsuario(novoUsuario: UsuarioEntity, body: PacienteSaveDto, hashedPassword: string) {
-
+    novoUsuario.cpf = this.removeSpecialCharacters(body.cpf);
+    novoUsuario.email = body.email;
+    novoUsuario.senha = hashedPassword;
   }
 
   async update(id: string, body: PacienteSaveDto): Promise<PacienteInfoDto> {
@@ -93,4 +95,7 @@ export class PacienteService {
     await this.pacienteRepository.softDelete(paciente);
   }
 
+  removeSpecialCharacters(str: string) {
+    return str.replace(/[^\w\s]/gi, '');
+  }
 }
