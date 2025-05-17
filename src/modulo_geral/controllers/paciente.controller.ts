@@ -1,34 +1,34 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { UsuarioService } from '../services/usuario.service';
 import { PacienteSaveDto } from '../dto/paciente.save.dto';
+import { PacienteService } from '../services/paciente.service';
 
 @Controller("paciente")
 export class PacienteController {
-  constructor(private usuarioService: UsuarioService) {}
+  constructor(private service: PacienteService) {}
 
   @Get()
   async listar() {
-    return this.usuarioService.findAll();
+    return this.service.findAll();
   }
 
   @Get(':id')
   async buscar(@Param('id') id: string) {
-    return this.usuarioService.findOneById(id);
+    return this.service.findOneById(id);
   }
 
   @Post()
   async cadastrar(@Body() body: PacienteSaveDto) {
-    return this.usuarioService.save(body);
+    return this.service.save(body);
   }
 
   @Put(':id')
   async atualizar(@Param('id') id: string, @Body() body: PacienteSaveDto) {
-    return this.usuarioService.update(id, body);
+    return this.service.update(id, body);
   }
 
   @Delete(':id')
   async apagar(@Param('id') id: string) {
-    return this.usuarioService.delete(id);
+    return this.service.delete(id);
   }
 
 }

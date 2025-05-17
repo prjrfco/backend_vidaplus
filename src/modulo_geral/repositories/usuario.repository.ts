@@ -14,6 +14,10 @@ export class UsuarioRepository {
     return this.usuarioRepository.findOne({ where: { email: email } });
   }
 
+  findOneByCpf(cpf: string): Promise<UsuarioEntity | null> {
+    return this.usuarioRepository.findOne({ where: { cpf: cpf } });
+  }
+
   findAll(): Promise<UsuarioEntity[]> {
     return this.usuarioRepository.find({ where: { apagadoEm: IsNull() } });
   }

@@ -1,6 +1,9 @@
-import { CreateDateColumn, DeleteDateColumn, UpdateDateColumn } from 'typeorm';
+import { CreateDateColumn, DeleteDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 export class Base {
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
+
   @CreateDateColumn({ name: 'criado_em', nullable: false, type: 'timestamp' })
   criadoEm: Date;
 

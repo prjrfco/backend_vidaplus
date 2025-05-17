@@ -13,10 +13,19 @@ export class PacienteSaveDto {
   @IsString()
   cpf: string;
 
-  @IsOptional()
-  telefone: string;
-
   @IsNotEmpty({ message: "senha deve ser preenchido" })
   @IsString()
   senha: string;
+
+  @IsOptional()
+  telefone: string;
+
+  @IsOptional()
+  pesoEmKg: number;
+
+  @IsOptional()
+  alturaEmMetro: number;
+
+  @IsOptional()
+  tipoSanguineo: string;
 }

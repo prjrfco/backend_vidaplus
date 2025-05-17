@@ -1,4 +1,5 @@
-import { UsuarioEntity } from '../entities/usuario.entity';
+
+import { PacienteEntity } from '../entities/paciente.entity';
 
 export class PacienteInfoDto {
   id: string;
@@ -6,12 +7,18 @@ export class PacienteInfoDto {
   email: string;
   cpf: string;
   telefone: string;
+  pesoEmKg: number;
+  alturaEmMetro: number;
+  tipoSanguineo: string;
 
-  constructor(entity: UsuarioEntity) {
+  constructor(entity: PacienteEntity) {
     this.id = entity.id;
     this.nome = entity.nome;
-    this.email = entity.email;
-    this.cpf = entity.cpf;
+    this.email = entity.usuario.email;
+    this.cpf = entity.usuario.cpf;
     this.telefone = entity.telefone;
+    this.pesoEmKg = entity.pesoEmKg;
+    this.alturaEmMetro = entity.alturaEmMetro;
+    this.tipoSanguineo = entity.tipoSanguineo;
   }
 }

@@ -1,12 +1,12 @@
 import {UsuarioEntity} from "../entities/usuario.entity";
 
 export class LoginUserDTO {
-  nome: string;
+  cpf: string;
   email: string;
   token: string;
 
   constructor(usuario: UsuarioEntity, token: string) {
-    this.nome = usuario.nome;
+    this.cpf = usuario.cpf;
     this.email = usuario.email;
     this.token = token;
   }

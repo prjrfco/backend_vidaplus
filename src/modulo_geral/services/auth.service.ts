@@ -1,23 +1,23 @@
-import {
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import {UsuarioRepository} from "../repositories/usuario.repository";
-import {UsuarioEntity} from "../entities/usuario.entity";
-import { compare } from "bcrypt";
+import { UsuarioRepository } from '../repositories/usuario.repository';
+import { UsuarioEntity } from '../entities/usuario.entity';
+import { compare } from 'bcrypt';
 
 @Injectable()
 export class AuthService {
   constructor(
-      private readonly usersService: UsuarioRepository,
+      private readonly usuarioRepository: UsuarioRepository,
       private jwtService: JwtService,
   ) {}
-  async validarUsuario(email: string, senha: string): Promise<any> {
-    const usuario: UsuarioEntity | null = await this.usersService.findOneByEmail(email);
+  async validarUsuario(emailOuCpf: string, senha: string): Promise<any> {
+    let usuario: UsuarioEntity | null = await this.usuarioRepository.findOneByEmail(emailOuCpf);
 
     if (!usuario) {
-      throw new UnauthorizedException('Usuário ou Senha Inválidos');
+      usuario = await this.usuarioRepository.findOneByCpf(emailOuCpf);
+      if (!usuario){
+        throw new UnauthorizedException('Usuário ou Senha Inválidos');
+      }
     }
 
     if (await compare(senha, usuario.senha)) {

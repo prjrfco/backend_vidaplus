@@ -14,10 +14,8 @@ export class CreateTableUsuario1732627076539 implements MigrationInterface {
             isGenerated: true,
             generationStrategy: 'uuid',
           },
-          { name: 'nome', type: 'varchar', isNullable: false },
           { name: 'cpf', type: 'varchar', isNullable: false },
           { name: 'email', type: 'varchar', isNullable: false },
-          { name: 'telefone', type: 'varchar', isNullable: true },
           { name: 'senha', type: 'varchar', isNullable: false },
           {
             name: 'criado_em',
