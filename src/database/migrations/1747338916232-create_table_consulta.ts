@@ -21,6 +21,7 @@ export class CreateTableConsulta1747338916232 implements MigrationInterface {
                   { name: 'data_marcada', type: 'timestamp', isNullable: false },
                   { name: 'realizada', type: 'boolean', isNullable: false, default: false },
                   { name: 'cancelada', type: 'boolean', isNullable: false, default: false },
+                  { name: 'tipo', type: 'varchar', isNullable: false, default: "'PRESENCIAL'" },
                   { name: 'observacoes', type: 'text', isNullable: true },
                   {
                       name: 'criado_em',

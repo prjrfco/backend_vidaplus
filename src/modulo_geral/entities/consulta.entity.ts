@@ -5,6 +5,7 @@ import { UnidadeHospitalarEntity } from './unidade-hospitalar.entity';
 import { EspecialidadeEntity } from './especialidade.entity';
 import { PacienteEntity } from './paciente.entity';
 import { ProfissionalEntity } from './profissional.entity';
+import { TipoConsultaEnum } from '../../common/enums/tipo.consulta.enum';
 
 @Entity({ name: "consulta", schema: "cadastro" })
 export class ConsultaEntity extends Base {
@@ -29,6 +30,9 @@ export class ConsultaEntity extends Base {
 
   @Column({ name: "cancelada", nullable: false, type: "boolean", default: false })
   cancelada: boolean;
+
+  @Column({ name: "tipo", nullable: true, type: "varchar", default: TipoConsultaEnum.PRESENCIAL })
+  tipo: TipoConsultaEnum;
 
   @Column({ name: "observacoes", nullable: true, type: "text"})
   observacoes: string;

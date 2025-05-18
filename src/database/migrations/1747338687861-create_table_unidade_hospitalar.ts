@@ -18,6 +18,7 @@ export class CreateTableUnidadeHospitalar1747338687861 implements MigrationInter
                   { name: 'nome', type: 'varchar', isNullable: false },
                   { name: 'cep', type: 'varchar', isNullable: false },
                   { name: 'estado', type: 'varchar', isNullable: false },
+                  { name: 'cidade', type: 'varchar', isNullable: false },
                   { name: 'rua', type: 'varchar', isNullable: false },
                   { name: 'bairro', type: 'varchar', isNullable: false },
                   { name: 'numero', type: 'varchar', isNullable: false },

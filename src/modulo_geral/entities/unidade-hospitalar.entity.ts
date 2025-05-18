@@ -12,16 +12,19 @@ export class UnidadeHospitalarEntity extends Base {
   @Column({ name: "cep", nullable: false, type: "varchar" })
   cep: string;
 
-  @Column({ name: "estado", nullable: true, type: "varchar" })
+  @Column({ name: "estado", nullable: false, type: "varchar" })
   estado: string;
 
-  @Column({ name: "rua", nullable: true, type: "varchar" })
+  @Column({ name: "cidade", nullable: false, type: "varchar" })
+  cidade: string;
+
+  @Column({ name: "rua", nullable: false, type: "varchar" })
   rua: string;
 
-  @Column({ name: "bairro", nullable: true, type: "varchar" })
+  @Column({ name: "bairro", nullable: false, type: "varchar" })
   bairro: string;
 
-  @Column({ name: "numero", nullable: true, type: "varchar" })
+  @Column({ name: "numero", nullable: false, type: "varchar" })
   numero: string;
 
   @OneToMany(() => ProfissionalEntity, (profissional) => profissional.unidadeHospitalar)

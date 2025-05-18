@@ -1,5 +1,5 @@
-import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Base } from "../../common/base.entity";
+import { Column, Entity, Index } from 'typeorm';
+import { Base } from '../../common/base.entity';
 
 @Entity({ name: "usuario", schema: "seguranca" })
 @Index(["cpf"], { unique: true })
