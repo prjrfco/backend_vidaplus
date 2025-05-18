@@ -1,34 +1,30 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { PacienteSaveDto } from '../dto/paciente.save.dto';
 import { PacienteService } from '../services/paciente.service';
+import { AuthGuard } from '../../guards/auth.guard';
+import { AuthService } from '../services/auth.service';
+import { TokenUserDto } from '../dto/token-user.dto';
 
+@UseGuards(AuthGuard)
 @Controller("paciente")
 export class PacienteController {
-  constructor(private service: PacienteService) {}
+  constructor(private service: PacienteService, private authService: AuthService) {}
 
   @Get()
-  async listar() {
-    return this.service.findAll();
+  async buscar(@Req() req: any) {
+    const user:TokenUserDto = await this.authService.tokenDecode(req);
+    return this.service.findOneByCpf(user.cpf);
   }
 
-  @Get(':id')
-  async buscar(@Param('id') id: string) {
-    return this.service.findOneById(id);
+  @Put()
+  async atualizar(@Req() req: any, @Body() body: PacienteSaveDto) {
+    const user:TokenUserDto = await this.authService.tokenDecode(req);
+    return this.service.update(user.cpf, body);
   }
 
-  @Post()
-  async cadastrar(@Body() body: PacienteSaveDto) {
-    return this.service.save(body);
+  @Delete()
+  async apagar(@Req() req: any) {
+    const user:TokenUserDto = await this.authService.tokenDecode(req);
+    return this.service.delete(user.cpf);
   }
-
-  @Put(':id')
-  async atualizar(@Param('id') id: string, @Body() body: PacienteSaveDto) {
-    return this.service.update(id, body);
-  }
-
-  @Delete(':id')
-  async apagar(@Param('id') id: string) {
-    return this.service.delete(id);
-  }
-
 }

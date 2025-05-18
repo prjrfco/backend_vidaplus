@@ -1,8 +1,9 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, Param, Req, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsuarioRepository } from '../repositories/usuario.repository';
 import { UsuarioEntity } from '../entities/usuario.entity';
 import { compare } from 'bcrypt';
+import { TokenUserDto } from '../dto/token-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -29,13 +30,30 @@ export class AuthService {
   async gerarToken(payload: UsuarioEntity) {
     return {
       access_token: this.jwtService.sign(
-          { email: payload.email },
+          { cpf: payload.cpf, email: payload.email, tipo: payload.tipo },
           {
             secret: 'topSecret512',
             expiresIn: '7Days',
           },
       ),
     };
+  }
+
+  checkToken(token: string) {
+    try {
+      return this.jwtService.verify(token, {
+        secret: 'topSecret512',
+      });
+    } catch (e) {
+      throw new BadRequestException(e);
+    }
+  }
+
+  async tokenDecode(req: any) {
+    let { authorization } = req.headers;
+    authorization = authorization.split(" ")[1];
+    const tokenDecoded: any = this.jwtService.decode(authorization);
+    return new TokenUserDto(tokenDecoded);
   }
 
   removeSpecialCharacters(str: string) {

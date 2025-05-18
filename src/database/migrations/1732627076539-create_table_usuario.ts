@@ -17,6 +17,7 @@ export class CreateTableUsuario1732627076539 implements MigrationInterface {
           { name: 'cpf', type: 'varchar', isNullable: false },
           { name: 'email', type: 'varchar', isNullable: false },
           { name: 'senha', type: 'varchar', isNullable: false },
+          { name: 'tipo', type: 'varchar', isNullable: false, default: "'PACIENTE'" },
           {
             name: 'criado_em',
             type: 'timestamp',

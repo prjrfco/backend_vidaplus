@@ -19,8 +19,8 @@ export class PacienteService {
     return pacientes.map((paciente) => new PacienteInfoDto(paciente));
   }
 
-  async findOneById(id: string): Promise<PacienteInfoDto> {
-    const paciente = await this.pacienteRepository.findOneById(id);
+  async findOneByCpf(cpf: string): Promise<PacienteInfoDto> {
+    const paciente = await this.pacienteRepository.findOneByCpf(cpf);
     if (!paciente) {
       throw new NotFoundException("Paciente não encontrado");
     }
@@ -78,8 +78,8 @@ export class PacienteService {
     novoUsuario.senha = hashedPassword;
   }
 
-  async update(id: string, body: PacienteSaveDto): Promise<PacienteInfoDto> {
-    let paciente = await this.pacienteRepository.findOneById(id);
+  async update(cpf: string, body: PacienteSaveDto): Promise<PacienteInfoDto> {
+    let paciente = await this.pacienteRepository.findOneByCpf(cpf);
 
     if (!paciente) {
       throw new NotFoundException("Paciente não encontrado");
@@ -111,14 +111,15 @@ export class PacienteService {
     }
   }
 
-  async delete(id: string) {
-    const paciente = await this.pacienteRepository.findOneById(id);
+  async delete(cpf: string) {
+    const paciente = await this.pacienteRepository.findOneByCpf(cpf);
 
     if (!paciente) {
       throw new NotFoundException("Paciente não encontrado");
     }
 
     await this.pacienteRepository.softDelete(paciente);
+    await this.usuarioRepository.softDelete(paciente.usuario);
   }
 
   removeSpecialCharacters(str: string) {

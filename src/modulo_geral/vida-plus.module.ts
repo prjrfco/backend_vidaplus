@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AuthService } from './services/auth.service';
-import { SegurancaController } from './controllers/seguranca.controller';
+import { PublicController } from './controllers/public.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsuarioEntity } from './entities/usuario.entity';
 import { PassportModule } from '@nestjs/passport';
@@ -19,7 +19,7 @@ import { PacienteEntity } from './entities/paciente.entity';
     PassportModule,
     JwtModule,
   ],
-  controllers: [SegurancaController, PacienteController],
+  controllers: [PublicController, PacienteController],
   providers: [AuthService, LocalStrategy, UsuarioRepository, PacienteRepository, PacienteService, ],
   exports: [AuthService],
 })
