@@ -85,3 +85,9 @@ $ yarn start:debug
 ```bash
 $ yarn build
 ```
+
+## Link documentação POSTMAN
+
+```
+https://drive.google.com/file/d/1GuV0QViK4vClPoxKlEEzNrNJ2j3x7wus/view?usp=sharing
+```
