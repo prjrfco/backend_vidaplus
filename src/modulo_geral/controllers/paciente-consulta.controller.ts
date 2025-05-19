@@ -6,6 +6,7 @@ import { AuthService } from '../services/auth.service';
 import { TokenUserDto } from '../dto/token-user.dto';
 import { ConsultaService } from '../services/consulta.service';
 import { ConsultaSaveDto } from '../dto/consulta.save.dto';
+import { ConsultaUpdateDto } from '../dto/consulta.update.dto';
 
 @UseGuards(AuthGuard)
 @Controller("paciente/consulta")
@@ -31,12 +32,12 @@ export class PacienteConsultaController {
     return this.consultaService.marcar(user.cpf, body);
   }
 
-  // @Put(':id')
-  // async remarcar(@Req() req: any, @Body() body: PacienteSaveDto) {
-  //   const user:TokenUserDto = await this.authService.tokenDecode(req);
-  //   return this.consultaService.remarcar(user.cpf, body);
-  // }
-  //
+  @Put(':id')
+  async remarcar(@Req() req: any, @Body() body: ConsultaUpdateDto, @Param('id') id: string,) {
+    const user:TokenUserDto = await this.authService.tokenDecode(req);
+    return this.consultaService.remarcar(user.cpf, body, id);
+  }
+
   @Patch('cancelar/:id')
   async cancelar(@Param('id') id: string, @Req() req: any) {
     const user:TokenUserDto = await this.authService.tokenDecode(req);

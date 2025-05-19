@@ -5,6 +5,7 @@ import { ConsultaInfoDto } from '../dto/consulta.info.dto';
 import { ConsultaRepository } from '../repositories/consulta.repository';
 import { ProfissionalRepository } from '../repositories/profissional.repository';
 import { ConsultaEntity } from '../entities/consulta.entity';
+import { ConsultaUpdateDto } from '../dto/consulta.update.dto';
 
 @Injectable()
 export class ConsultaService {
@@ -39,7 +40,7 @@ export class ConsultaService {
     return new ConsultaInfoDto(novaConsulta);
   }
 
-  private async verificarDataMarcada(body: ConsultaSaveDto) {
+  private async verificarDataMarcada(body: any) {
     if (body.dataMarcada <= new Date()) {
       throw new BadRequestException('Não é possível marcar uma consulta no passado');
     }
@@ -70,11 +71,24 @@ export class ConsultaService {
 
   async cancelar(cpf: string, id: string) {
     const consulta = await this.consultaRepository.findByIdMarcada(cpf, id);
-
     if (!consulta){
       throw new NotFoundException("Consulta não encontrada")
     }
+
     consulta.cancelada = true;
+
+    return new ConsultaInfoDto(await this.consultaRepository.save(consulta));
+  }
+
+  async remarcar(cpf: string, body: ConsultaUpdateDto, id: string) {
+    const consulta = await this.consultaRepository.findByIdMarcada(cpf, id);
+    if (!consulta) {
+      throw new NotFoundException("Consulta não encontrada")
+    }
+
+    const dataHoraMarcadaFinal = await this.verificarDataMarcada(body);
+    consulta.dataHoraMarcada = body.dataMarcada;
+    consulta.dataHoraMarcadaFinal = dataHoraMarcadaFinal;
 
     return new ConsultaInfoDto(await this.consultaRepository.save(consulta));
   }
