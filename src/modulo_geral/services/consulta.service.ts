@@ -5,7 +5,8 @@ import { ConsultaInfoDto } from '../dto/consulta.info.dto';
 import { ConsultaRepository } from '../repositories/consulta.repository';
 import { ProfissionalRepository } from '../repositories/profissional.repository';
 import { ConsultaEntity } from '../entities/consulta.entity';
-import { ConsultaUpdateDto } from '../dto/consulta.update.dto';
+import { ConsultaPacienteUpdateDto } from '../dto/consulta-paciente.update.dto';
+import { ConsultaProfissionalUpdateDto } from '../dto/consulta-profissional.update.dto';
 
 @Injectable()
 export class ConsultaService {
@@ -54,7 +55,7 @@ export class ConsultaService {
   }
 
   async listarMarcadas(cpf: string, id: string) {
-    const consultas = await this.consultaRepository.findMarcadasByCpf(cpf);
+    const consultas = await this.consultaRepository.findMarcadasPacienteByCpf(cpf);
     if (!id) {
       return consultas.map((consulta) => new ConsultaInfoDto(consulta));
     }
@@ -62,7 +63,7 @@ export class ConsultaService {
   }
 
   async historico(cpf: string, id: string) {
-    const consultas = await this.consultaRepository.findHistoricoByCpf(cpf);
+    const consultas = await this.consultaRepository.findHistoricoPacienteByCpf(cpf);
     if (!id) {
       return consultas.map((consulta) => new ConsultaInfoDto(consulta));
     }
@@ -70,7 +71,7 @@ export class ConsultaService {
   }
 
   async cancelar(cpf: string, id: string) {
-    const consulta = await this.consultaRepository.findByIdMarcada(cpf, id);
+    const consulta = await this.consultaRepository.findByIdMarcadaPaciente(cpf, id);
     if (!consulta){
       throw new NotFoundException("Consulta não encontrada")
     }
@@ -80,8 +81,8 @@ export class ConsultaService {
     return new ConsultaInfoDto(await this.consultaRepository.save(consulta));
   }
 
-  async remarcar(cpf: string, body: ConsultaUpdateDto, id: string) {
-    const consulta = await this.consultaRepository.findByIdMarcada(cpf, id);
+  async remarcar(cpf: string, body: ConsultaPacienteUpdateDto, id: string) {
+    const consulta = await this.consultaRepository.findByIdMarcadaPaciente(cpf, id);
     if (!consulta) {
       throw new NotFoundException("Consulta não encontrada")
     }
@@ -89,6 +90,36 @@ export class ConsultaService {
     const dataHoraMarcadaFinal = await this.verificarDataMarcada(body);
     consulta.dataHoraMarcada = body.dataMarcada;
     consulta.dataHoraMarcadaFinal = dataHoraMarcadaFinal;
+
+    return new ConsultaInfoDto(await this.consultaRepository.save(consulta));
+  }
+
+  async listarMarcadasProfissional(cpf: string, id: string) {
+    const consultas = await this.consultaRepository.findMarcadasProfissionalByCpf(cpf);
+    if (!id) {
+      return consultas.map((consulta) => new ConsultaInfoDto(consulta));
+    }
+    return consultas.filter((consulta) => consulta.id == id);
+  }
+
+  async historicoProfissional(cpf: string, id: string) {
+    const consultas = await this.consultaRepository.findHistoricoProfissionalByCpf(cpf);
+    if (!id) {
+      return consultas.map((consulta) => new ConsultaInfoDto(consulta));
+    }
+    return consultas.filter((consulta) => consulta.id == id);
+  }
+
+  async remarcarProfissional(cpf: string, body: ConsultaProfissionalUpdateDto, id: string) {
+    const consulta = await this.consultaRepository.findByIdMarcadaProfissional(cpf, id);
+    if (!consulta) {
+      throw new NotFoundException("Consulta não encontrada")
+    }
+
+    const dataHoraMarcadaFinal = await this.verificarDataMarcada(body);
+    consulta.dataHoraMarcada = body.dataMarcada;
+    consulta.dataHoraMarcadaFinal = dataHoraMarcadaFinal;
+    consulta.observacoes = body.observacoes;
 
     return new ConsultaInfoDto(await this.consultaRepository.save(consulta));
   }

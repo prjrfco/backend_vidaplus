@@ -12,12 +12,12 @@ import { PacienteService } from './services/paciente.service';
 import { PacienteRepository } from './repositories/paciente.repository';
 import { PacienteEntity } from './entities/paciente.entity';
 import { PacienteConsultaController } from './controllers/paciente-consulta.controller';
-import { ConsultaSaveDto } from './dto/consulta.save.dto';
 import { ProfissionalEntity } from './entities/profissional.entity';
 import { ConsultaService } from './services/consulta.service';
 import { ConsultaRepository } from './repositories/consulta.repository';
 import { ProfissionalRepository } from './repositories/profissional.repository';
 import { ConsultaEntity } from './entities/consulta.entity';
+import { ProfissionalConsultaController } from './controllers/profissional-consulta.controller';
 
 
 @Module({
@@ -26,7 +26,7 @@ import { ConsultaEntity } from './entities/consulta.entity';
     PassportModule,
     JwtModule,
   ],
-  controllers: [PublicController, PacienteController, PacienteConsultaController],
+  controllers: [PublicController, PacienteController, PacienteConsultaController, ProfissionalConsultaController],
   providers: [AuthService,
     LocalStrategy,
     UsuarioRepository,

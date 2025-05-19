@@ -1,7 +1,6 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
   Param,
   Patch,
@@ -12,14 +11,12 @@ import {
   UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
-import { PacienteSaveDto } from '../dto/paciente.save.dto';
-import { PacienteService } from '../services/paciente.service';
 import { AuthGuard } from '../../guards/auth.guard';
 import { AuthService } from '../services/auth.service';
 import { TokenUserDto } from '../dto/token-user.dto';
 import { ConsultaService } from '../services/consulta.service';
 import { ConsultaSaveDto } from '../dto/consulta.save.dto';
-import { ConsultaUpdateDto } from '../dto/consulta.update.dto';
+import { ConsultaPacienteUpdateDto } from '../dto/consulta-paciente.update.dto';
 import { TipoUsuarioEnum } from '../../common/enums/tipo.usuario.enum';
 
 @UseGuards(AuthGuard)
@@ -50,7 +47,7 @@ export class PacienteConsultaController {
   }
 
   @Put(':id')
-  async remarcar(@Req() req: any, @Body() body: ConsultaUpdateDto, @Param('id') id: string,) {
+  async remarcar(@Req() req: any, @Body() body: ConsultaPacienteUpdateDto, @Param('id') id: string,) {
     const user:TokenUserDto = await this.authService.tokenDecode(req);
     this.validarPaciente(user);
     return this.consultaService.remarcar(user.cpf, body, id);

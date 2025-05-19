@@ -24,14 +24,14 @@ export class ConsultaRepository {
     )
   }
 
-  async findMarcadasByCpf(cpf: string) {
+  async findMarcadasPacienteByCpf(cpf: string) {
     return this.consultaRepository.find({
       relations: { paciente: { usuario: true }, profissional: { especialidade: true }, unidadeHospitalar: true },
       where: { paciente: { usuario: { cpf: cpf } }, realizada: false, cancelada: false },
     })
   }
 
-  async findHistoricoByCpf(cpf: string) {
+  async findHistoricoPacienteByCpf(cpf: string) {
     return this.consultaRepository.find({
       relations: { paciente: { usuario: true }, profissional: { especialidade: true }, unidadeHospitalar: true },
       where: [
@@ -41,10 +41,35 @@ export class ConsultaRepository {
     })
   }
 
-  async findByIdMarcada(cpf: string, id: string) {
+  async findByIdMarcadaPaciente(cpf: string, id: string) {
     return this.consultaRepository.findOne({
       relations: { paciente: { usuario: true }, profissional: { especialidade: true }, unidadeHospitalar: true },
       where: { id: id, paciente: { usuario: { cpf: cpf } },realizada: false, cancelada: false },
+    })
+  }
+
+
+  async findMarcadasProfissionalByCpf(cpf: string) {
+    return this.consultaRepository.find({
+      relations: { paciente: { usuario: true }, profissional: { especialidade: true }, unidadeHospitalar: true },
+      where: { profissional: { usuario: { cpf: cpf } }, realizada: false, cancelada: false },
+    })
+  }
+
+  async findHistoricoProfissionalByCpf(cpf: string) {
+    return this.consultaRepository.find({
+      relations: { paciente: { usuario: true }, profissional: { especialidade: true }, unidadeHospitalar: true },
+      where: [
+        { profissional: { usuario: { cpf: cpf } }, realizada: true, cancelada: false },
+        { profissional: { usuario: { cpf: cpf } }, realizada: false, cancelada: true }
+      ],
+    })
+  }
+
+  async findByIdMarcadaProfissional(cpf: string, id: string) {
+    return this.consultaRepository.findOne({
+      relations: { paciente: { usuario: true }, profissional: { especialidade: true }, unidadeHospitalar: true },
+      where: { id: id, profissional: { usuario: { cpf: cpf } },realizada: false, cancelada: false },
     })
   }
 }
