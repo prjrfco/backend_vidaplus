@@ -18,15 +18,27 @@ import { ConsultaRepository } from './repositories/consulta.repository';
 import { ProfissionalRepository } from './repositories/profissional.repository';
 import { ConsultaEntity } from './entities/consulta.entity';
 import { ProfissionalConsultaController } from './controllers/profissional-consulta.controller';
+import { DropdownController } from './controllers/dropdown.controller';
+import { DropdownService } from './services/dropdown.service';
+import { UnidadeHospitalarRepository } from './repositories/unidade-hospitalar.repository';
+import { UnidadeHospitalarEntity } from './entities/unidade-hospitalar.entity';
 
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([UsuarioEntity, PacienteEntity, ConsultaEntity, ProfissionalEntity]),
+    TypeOrmModule.forFeature([UsuarioEntity,
+      PacienteEntity,
+      ConsultaEntity,
+      ProfissionalEntity,
+      UnidadeHospitalarEntity]),
     PassportModule,
     JwtModule,
   ],
-  controllers: [PublicController, PacienteController, PacienteConsultaController, ProfissionalConsultaController],
+  controllers: [PublicController,
+    PacienteController,
+    PacienteConsultaController,
+    ProfissionalConsultaController,
+    DropdownController],
   providers: [AuthService,
     LocalStrategy,
     UsuarioRepository,
@@ -34,7 +46,9 @@ import { ProfissionalConsultaController } from './controllers/profissional-consu
     PacienteService,
     ConsultaService,
     ConsultaRepository,
-    ProfissionalRepository],
+    ProfissionalRepository,
+    DropdownService,
+    UnidadeHospitalarRepository],
   exports: [AuthService],
 })
 export class VidaPlusModule {}
