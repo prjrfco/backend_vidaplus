@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, Req, UseGuards } from '@nestjs/common';
 import { PacienteSaveDto } from '../dto/paciente.save.dto';
 import { PacienteService } from '../services/paciente.service';
 import { AuthGuard } from '../../guards/auth.guard';
@@ -37,9 +37,9 @@ export class PacienteConsultaController {
   //   return this.consultaService.remarcar(user.cpf, body);
   // }
   //
-  // @Put(':id')
-  // async cancelar(@Req() req: any) {
-  //   const user:TokenUserDto = await this.authService.tokenDecode(req);
-  //   return this.consultaService.cancelar(user.cpf);
-  // }
+  @Patch('cancelar/:id')
+  async cancelar(@Param('id') id: string, @Req() req: any) {
+    const user:TokenUserDto = await this.authService.tokenDecode(req);
+    return this.consultaService.cancelar(user.cpf, id);
+  }
 }

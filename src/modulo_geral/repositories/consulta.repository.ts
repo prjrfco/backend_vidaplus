@@ -16,7 +16,10 @@ export class ConsultaRepository {
 
   findByPeriod(dataInicial: Date, dataFinal:Date): Promise<ConsultaEntity[]> {
     return this.consultaRepository.find({
-      where: [{ dataHoraMarcada: Between(dataInicial, dataFinal) }, { dataHoraMarcadaFinal: Between(dataInicial, dataFinal) }]
+      where: [
+        { dataHoraMarcada: Between(dataInicial, dataFinal), cancelada: false },
+        { dataHoraMarcadaFinal: Between(dataInicial, dataFinal), cancelada: false }
+      ]
       }
     )
   }
@@ -30,11 +33,18 @@ export class ConsultaRepository {
 
   async findHistoricoByCpf(cpf: string) {
     return this.consultaRepository.find({
-      relations: { paciente: true, profissional: { especialidade: true }, unidadeHospitalar: true },
+      relations: { paciente: { usuario: true }, profissional: { especialidade: true }, unidadeHospitalar: true },
       where: [
         { paciente: { usuario: { cpf: cpf } }, realizada: true, cancelada: false },
         { paciente: { usuario: { cpf: cpf } }, realizada: false, cancelada: true }
       ],
+    })
+  }
+
+  async findByIdMarcada(cpf: string, id: string) {
+    return this.consultaRepository.findOne({
+      relations: { paciente: { usuario: true }, profissional: { especialidade: true }, unidadeHospitalar: true },
+      where: { id: id, paciente: { usuario: { cpf: cpf } },realizada: false, cancelada: false },
     })
   }
 }

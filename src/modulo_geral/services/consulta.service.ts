@@ -1,11 +1,5 @@
-import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
-import { UsuarioRepository } from '../repositories/usuario.repository';
-import { PacienteInfoDto } from '../dto/paciente.info.dto';
-import { UsuarioEntity } from '../entities/usuario.entity';
-import * as bcrypt from 'bcrypt';
-import { PacienteSaveDto } from '../dto/paciente.save.dto';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { PacienteRepository } from '../repositories/paciente.repository';
-import { PacienteEntity } from '../entities/paciente.entity';
 import { ConsultaSaveDto } from '../dto/consulta.save.dto';
 import { ConsultaInfoDto } from '../dto/consulta.info.dto';
 import { ConsultaRepository } from '../repositories/consulta.repository';
@@ -72,5 +66,16 @@ export class ConsultaService {
       return consultas.map((consulta) => new ConsultaInfoDto(consulta));
     }
     return consultas.filter((consulta) => consulta.id == id);
+  }
+
+  async cancelar(cpf: string, id: string) {
+    const consulta = await this.consultaRepository.findByIdMarcada(cpf, id);
+
+    if (!consulta){
+      throw new NotFoundException("Consulta não encontrada")
+    }
+    consulta.cancelada = true;
+
+    return new ConsultaInfoDto(await this.consultaRepository.save(consulta));
   }
 }
