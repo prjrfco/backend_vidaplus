@@ -22,8 +22,11 @@ export class ConsultaEntity extends Base {
   @JoinColumn({ name: "unidade_hospitalar_id", referencedColumnName: "id" })
   unidadeHospitalar: UnidadeHospitalarEntity;
 
-  @Column({ name: "data_marcada", nullable: false, type: "timestamp" })
-  dataMarcada: Date;
+  @Column({ name: "data_hora_marcada_inicial", nullable: false, type: "timestamp" })
+  dataHoraMarcada: Date;
+
+  @Column({ name: "data_hora_marcada_final", nullable: false, type: "timestamp" })
+  dataHoraMarcadaFinal: Date;
 
   @Column({ name: "realizada", nullable: false, type: "boolean", default: false })
   realizada: boolean;

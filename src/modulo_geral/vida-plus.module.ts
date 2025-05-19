@@ -11,16 +11,30 @@ import { PacienteController } from './controllers/paciente.controller';
 import { PacienteService } from './services/paciente.service';
 import { PacienteRepository } from './repositories/paciente.repository';
 import { PacienteEntity } from './entities/paciente.entity';
+import { PacienteConsultaController } from './controllers/paciente-consulta.controller';
+import { ConsultaSaveDto } from './dto/consulta.save.dto';
+import { ProfissionalEntity } from './entities/profissional.entity';
+import { ConsultaService } from './services/consulta.service';
+import { ConsultaRepository } from './repositories/consulta.repository';
+import { ProfissionalRepository } from './repositories/profissional.repository';
+import { ConsultaEntity } from './entities/consulta.entity';
 
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([UsuarioEntity, PacienteEntity]),
+    TypeOrmModule.forFeature([UsuarioEntity, PacienteEntity, ConsultaEntity, ProfissionalEntity]),
     PassportModule,
     JwtModule,
   ],
-  controllers: [PublicController, PacienteController],
-  providers: [AuthService, LocalStrategy, UsuarioRepository, PacienteRepository, PacienteService, ],
+  controllers: [PublicController, PacienteController, PacienteConsultaController],
+  providers: [AuthService,
+    LocalStrategy,
+    UsuarioRepository,
+    PacienteRepository,
+    PacienteService,
+    ConsultaService,
+    ConsultaRepository,
+    ProfissionalRepository],
   exports: [AuthService],
 })
 export class VidaPlusModule {}
