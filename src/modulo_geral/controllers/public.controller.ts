@@ -11,7 +11,7 @@ export class PublicController {
 
   @Post('login')
   async login(@Body() body: LoginDTO) {
-    return this.authService.validarUsuario(body.email, body.senha);
+    return this.authService.validarUsuario(body.login, body.senha);
   }
 
   @Post('cadastro')

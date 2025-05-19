@@ -3,7 +3,7 @@ import { IsNotEmpty, IsString } from "class-validator";
 export class LoginDTO {
   @IsNotEmpty({ message: "Email deve ser preenchido" })
   @IsString()
-  email: string;
+  login: string;
 
   @IsNotEmpty({ message: "Senha deve ser preenchido" })
   @IsString()

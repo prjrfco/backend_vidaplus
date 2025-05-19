@@ -28,7 +28,7 @@ export class UnidadeHospitalarRepository {
 
   async findOneById(unidadeHospitalarId: string) {
     return this.repository.findOne({
-      relations: { profissionais: { especialidade: true } },
+      relations: { profissionais: { especialidade: true, usuario: true } },
       where: { id: unidadeHospitalarId },
     });
   }

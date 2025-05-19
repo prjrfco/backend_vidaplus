@@ -70,6 +70,6 @@ export class DropdownService {
 
     const profissionais: ProfissionalEntity[] = unidadeHospitalar.profissionais.filter((profissional) => profissional.especialidade.id == especialidadeId);
 
-    return profissionais.map((profissional) => { return { id: profissional.id, nome: profissional.nome, especialildade: profissional.especialidade.nome } });
+    return profissionais.map((profissional) => { return { id: profissional.id, nome: profissional.nome, cpf: profissional.usuario.cpf, email: profissional.usuario.email, especialildade: profissional.especialidade.nome } });
   }
 }
