@@ -10,6 +10,8 @@ export class PacienteInfoDto {
   pesoEmKg: number;
   alturaEmMetro: number;
   tipoSanguineo: string;
+  dataCadastro: Date;
+  dataUltimaAtualizacao: Date;
 
   constructor(entity: PacienteEntity) {
     this.id = entity.id;
@@ -20,5 +22,7 @@ export class PacienteInfoDto {
     this.pesoEmKg = entity.pesoEmKg;
     this.alturaEmMetro = entity.alturaEmMetro;
     this.tipoSanguineo = entity.tipoSanguineo;
+    this.dataCadastro = entity.criadoEm;
+    this.dataUltimaAtualizacao = entity.atualizadoEm;
   }
 }
