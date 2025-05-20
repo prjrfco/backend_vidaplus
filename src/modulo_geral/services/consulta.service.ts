@@ -42,7 +42,7 @@ export class ConsultaService {
   }
 
   private async verificarDataMarcada(body: any) {
-    if (body.dataMarcada <= new Date()) {
+    if (new Date(body.dataMarcada) <= new Date()) {
       throw new BadRequestException('Não é possível marcar uma consulta no passado');
     }
     const dataFinal: Date = new Date(new Date(body.dataMarcada).getTime() + (15 * 60 * 1000));
