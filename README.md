@@ -34,7 +34,7 @@ Ru: 4369402
 ## Project setup
 
 #### PRÉ-REQUISITOS:
-
+Ter Instalado:
 ```
 NODE 20.11.1
 BANCO DE DADOS PostgreSQL
